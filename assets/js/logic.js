@@ -54,12 +54,14 @@ function showQuestion() {
 // Function to check if the answer is correct
 function checkAnswer() {
   let correctAnswer = questions[currentQuestion].correctAnswer;
-  if (this.innerHTML === correctAnswer) {
+  if (this.innerHTML == correctAnswer) {
     score+=10;
     Showmessage.textContent = "Correct!";
+    rightAudio.play();
   } else {
     timeLeft -= 10;
     Showmessage.textContent = "Wrong!";
+    wrongAudio.play();
   }
   currentQuestion++;
   if (currentQuestion < questions.length) {
@@ -109,6 +111,9 @@ function saveScore() {
     location.href = "highscores.html";
 
 });
+
+let rightAudio = document.getElementById("right-audio");
+let wrongAudio = document.getElementById("wrong-audio");
 
 
 
