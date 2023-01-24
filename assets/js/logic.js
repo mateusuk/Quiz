@@ -112,6 +112,7 @@ function saveScore() {
 
 });
 
+//sounds for right and wrong answers
 let rightAudio = document.getElementById("right-audio");
 let wrongAudio = document.getElementById("wrong-audio");
 
