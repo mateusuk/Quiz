@@ -1,11 +1,15 @@
-// let currentQuestion = 0;
-// let timeLeft = 60;
-// let score = 0;
-
 var startButton = document.getElementById("start");
 var submitButton = document.getElementById("submit");
 var scores = document.getElementById("scores");
 var feedback = document.getElementById("feedback");
+var startScreen = document.getElementById("start-screen");
+var questionDisplay = document.getElementById("questions");
+var questionTitle = document.getElementById("question-title");
+var choices = document.getElementById("choices");
+var time = document.getElementById("time");
+var endScreen = document.getElementById("end-screen");
+var finalScore = document.getElementById("final-score");
+var initialsId = document.getElementById("initials");
 
 
 
@@ -24,30 +28,30 @@ function startQuiz() {
   score = 0;
   showQuestion();
   startTimer();
-  document.getElementById("start-screen").classList.add("hide");
-  document.getElementById("questions").classList.remove("hide");
+  startScreen.classList.add("hide");
+  questionDisplay.classList.remove("hide");
   feedback.classList.remove("hide");
 }
 
 // Function to show the current question
 function showQuestion() {
   // Clear the previous question
-  document.getElementById("question-title").innerHTML = "";
-  document.getElementById("choices").innerHTML = "";
+  questionTitle.innerHTML = "";
+  choices.innerHTML = "";
 
   // Get the current question and answers
   let question = questions[currentQuestion].question;
   let answers = questions[currentQuestion].answers;
 
   // Display the question
-  document.getElementById("question-title").innerHTML = question;
+  questionTitle.innerHTML = question;
 
   // Display the answers
   for (let i = 0; i < answers.length; i++) {
     let button = document.createElement("button");
     button.innerHTML = answers[i];
     button.onclick = checkAnswer;
-    document.getElementById("choices").appendChild(button);
+    choices.appendChild(button);
   }
 }
 
@@ -75,9 +79,9 @@ function checkAnswer() {
 function startTimer() {
    setInterval(function() {
     timeLeft--;
-    document.getElementById("time").innerHTML = timeLeft;
+    time.innerHTML = timeLeft;
     if (timeLeft <= 0) {
-     document.getElementById("time").innerHTML = "0"
+      time.innerHTML = "0"
       endQuiz();
     }
   }, 1000);
@@ -86,48 +90,41 @@ function startTimer() {
 // Function to end the quiz
 function endQuiz() {
   clearInterval();
-  document.getElementById("questions").classList.add("hide");
-  document.getElementById("end-screen").classList.remove("hide");
-  document.getElementById("final-score").innerHTML = score;
+  questionDisplay.classList.add("hide");
+  endScreen.classList.remove("hide");
+  finalScore.innerHTML = score;
   
 }
 
+
+
+
+
 // Function to save the score
 function saveScore() {
-  let initials = document.getElementById("initials").value
+  let initials = initialsId.value
 
-  localStorage.setItem("initials", initials);
-  localStorage.setItem("score", score);
+  let scoreObject = { initials: initials, score: score }
 
-  let savedInitials = localStorage.getItem("initials");
-  let savedScore = localStorage.getItem("score");
+let scores = JSON.parse(localStorage.getItem("scores")) || [];
+scores.push(scoreObject);
+localStorage.setItem("scores", JSON.stringify(scores));
 
-}
+
  
+}
+
  //submit button
  submitButton.addEventListener("click", function(event) {
   event.preventDefault();
     saveScore();
+
+    // link to highscores html
     location.href = "highscores.html";
+
 
 });
 
 //sounds for right and wrong answers
 let rightAudio = document.getElementById("right-audio");
 let wrongAudio = document.getElementById("wrong-audio");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
